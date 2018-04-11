@@ -1,4 +1,4 @@
-# tmux-ssh
+# tmux-ssh [![Build Status](https://travis-ci.org/mlosev/tmux-ssh.svg?branch=master)](https://travis-ci.org/mlosev/tmux-ssh)
 
 Small helper to use with tmux and manage ssh connections to multiple servers. Mostly proof of concept, but still useful in daily routine.\
 Creates new tmux window (or selects already existing one) for given server and executes `ssh SERVER` command.\
