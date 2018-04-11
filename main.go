@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
+
+	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/mlosev/tmux-ssh/tmux"
 )
@@ -22,21 +23,24 @@ func findWindow(t *tmux.Tmux, target string) int {
 	return notFound
 }
 
+var (
+	sshTarget  = kingpin.Arg("target", "Target to ssh to").Required().String()
+	sshCommand = kingpin.Flag("ssh-cmd", "SSH command to call").Default("ssh").String()
+	namePrefix = kingpin.Flag("name-prefix", "Prefix to tmux window name").Default("ssh-").String()
+)
+
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Printf("Usage: %s NAME\n", os.Args[0])
-		os.Exit(1)
-	}
+	kingpin.Parse()
 
 	t := tmux.NewTmux()
 
-	target := os.Args[1]
-	name := fmt.Sprintf("ssh-%s", strings.SplitN(target, ".", 2)[0])
+	target := *sshTarget
+	name := fmt.Sprintf("%s%s", *namePrefix, strings.SplitN(target, ".", 2)[0])
 	idx := findWindow(t, name)
 
 	switch idx {
 	case -1:
-		t.CreateWindowFromCommand(name, []string{"ssh", target})
+		t.CreateWindowFromCommand(name, append(strings.Fields(*sshCommand), target))
 	default:
 		t.SelectWindow(idx)
 	}

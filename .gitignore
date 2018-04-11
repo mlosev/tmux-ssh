@@ -12,3 +12,12 @@
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+
+# Vendorized dependencies
+/vendor
+
+# Development binary, built with `go build`
+/tmux-ssh
+
+# Binaries created by goreleaser
+/dist
