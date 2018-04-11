@@ -1,0 +1,9 @@
+# Build customization
+builds:
+  - main: .
+    binary: tmux-ssh
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
